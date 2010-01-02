@@ -17,8 +17,9 @@ sub files {
 	my @files = reverse glob("$LOGDIR/*.$LOGEXT");
 
 	foreach my $file (@files) {
+        $file =~ s{^$LOGDIR/}{};
 		$file =~ s{\.$LOGEXT}{};
-		$file =~ s{$LOGDIR/$LOGPRE}{};
+        $file =~ s{^$LOGPRE}{};
 	}
 
 	@files;
