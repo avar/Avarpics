@@ -9,7 +9,9 @@ all_from 'lib/Avarpics.pm';
 requires 'Catalyst::Runtime' => '5.80016';
 requires 'Catalyst::Plugin::ConfigLoader';
 requires 'Catalyst::Plugin::Static::Simple';
+requires 'Catalyst::Plugin::Unicode';
 requires 'Catalyst::Action::RenderView';
+requires 'Catalyst::View::TT';
 requires 'Moose';
 requires 'namespace::autoclean';
 requires 'Config::General'; # This should reflect the config file format you've chosen
