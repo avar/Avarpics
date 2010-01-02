@@ -1,6 +1,5 @@
 package Avarpics::Controller::Menu;
 use Moose;
-use Avarpics::Log;
 use namespace::autoclean;
 
 BEGIN {extends 'Catalyst::Controller'; }
@@ -25,12 +24,7 @@ Catalyst Controller.
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
-    my $log = Avarpics::Log->new(
-        logdir => $c->config->{logdir},
-        logext => $c->config->{logext},
-        logpre => $c->config->{logpre},
-        channel => $c->config->{channel},
-    );
+    my $log = $c->{avarpics_log};
 
     my @files = $log->files;
 

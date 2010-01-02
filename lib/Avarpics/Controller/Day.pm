@@ -40,12 +40,7 @@ sub index :Path :CaptureArgs(1) {
 sub _process {
 	my ($self, $c, $date) = @_;
 
-    my $log = Avarpics::Log->new(
-        logdir => $c->config->{logdir},
-        logext => $c->config->{logext},
-        logpre => $c->config->{logpre},
-        channel => $c->config->{channel},
-    );
+    my $log = $c->{avarpics_log};
 
     my $text = $log->on_date_slurp( $date );
 

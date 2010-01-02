@@ -2,6 +2,7 @@ package Avarpics::Controller::Root;
 use Moose;
 use namespace::autoclean;
 use POSIX 'strftime';
+use Avarpics::Log;
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -21,6 +22,24 @@ Avarpics::Controller::Root - Root Controller for Avarpics
 
 =head1 METHODS
 
+=cut
+
+=head2 begin
+
+=cut
+
+sub begin :Private {
+    my ($self, $c) = @_;
+
+    my $log = Avarpics::Log->new(
+        logdir => $c->config->{logdir},
+        logext => $c->config->{logext},
+        logpre => $c->config->{logpre},
+        channel => $c->config->{channel},
+    );
+
+    $c->{avarpics_log} = $log;
+}
 =head2 index
 
 The root page (/)
