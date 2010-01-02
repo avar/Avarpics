@@ -1,7 +1,6 @@
 package Avarpics::Controller::Root;
 use Moose;
 use namespace::autoclean;
-use POSIX 'strftime';
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -32,7 +31,7 @@ The root page (/)
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
-    $c->detach( 'Avarpics::Controller::Day' => 'index' => [ strftime("%Y-%m-%d", localtime) ] );
+    $c->detach( 'Avarpics::Controller::Day' => 'index' );
 }
 
 =head2 default

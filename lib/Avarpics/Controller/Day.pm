@@ -2,6 +2,7 @@ package Avarpics::Controller::Day;
 use Moose;
 use namespace::autoclean;
 use Date::Calc qw(Add_Delta_Days);
+use POSIX 'strftime';
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -24,6 +25,8 @@ Catalyst Controller.
 
 sub index :Path :CaptureArgs(1) {
     my ( $self, $c, $day ) = @_;
+
+    $day = strftime("%Y-%m-%d", localtime) unless $day;
 
     if ($day =~ /^(\d\d\d\d-\d\d-\d\d)$/) {
         my %vars = $self->_process( $c, $1 );
