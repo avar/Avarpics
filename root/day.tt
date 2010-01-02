@@ -1,0 +1,58 @@
+[% PROCESS 'header.tt' %]
+<script type="text/javascript">
+function big(img) {
+	img.style.width='600px';
+}
+
+function small(img) {
+	img.style.width='425px';
+}
+</script>
+</head>
+<body>
+<h1>[% title %]</h1>
+<h2>[% IF img_count > 0 %][% img_count %] images[% IF vid_count > 0 %], [% END %][% END %][% IF vid_count > 0 %][% vid_count %] videos[% END %]</h2>
+<div id="toc">
+
+<a href="#pics" style="font-weight: bold">skip to pics &darr;</a> &nbsp; <a href="[% c.uri_for("/day/$prev_day") %]">&larr; prev day</a> &nbsp; <a href="[% c.uri_for("/day/$next_day") %]">next day &rarr;</a> &nbsp; <a href="[% c.uri_for('/menu') %]">list all days</a>
+<ol>
+[% anchor = 1 %]
+[% FOREACH uri IN uris %]
+	<li><a href="#[% anchor %]">[[% uri.type %]] [% uri.who %][% IF uri.comment %]: [% uri.comment %][% END %]</a></li>[% anchor = anchor + 1 %]
+[% END %]
+</ol>
+</div>
+<div id="pics">
+[% anchor = 1 %]
+[% FOREACH uri IN uris %]
+	<div class="pic" id="[% anchor %]">[% anchor = anchor + 1 %]
+	<span class="nick">&lt;[% uri.who %]&gt;</span> [% IF uri.comment %]<span class="comment">[% uri.comment %]</span>[% END %]
+
+	[% IF (uri.type == 'img') %]
+		[% IF (uri.flickr_id) %]
+		<a href="http://flickr.com/photo.gne?id=[% uri.flickr_id %]"><img src="[% uri.uri %]" width="425" onmouseover="big(this)" onmouseout="small(this)"></a>
+		[% ELSE %]
+		<a href="[% uri.uri %]"><img src="[% uri.uri %]" width="425" onmouseover="big(this)" onmouseout="small(this)"></a>
+		[% END %]
+	[% ELSIF (uri.type == 'vid') %]
+		[% vid_uri  = "http://www.youtube.com/v/" _ uri.id       %]
+		[% link_uri = "http://www.youtube.com/watch?v=" _ uri.id %]
+		<object width="425" height="344">
+			<param name="movie" value="http://www.youtube.com/v/[% uri.id %]&hl=en&fs=1"></param>
+			<param name="allowFullScreen" value="true"></param>
+			<embed src="[% vid_uri %]&hl=en&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="425" height="344">
+			</embed>
+		</object>
+		<div class="vid_uri">
+		<a href="[% link_uri %]">[% link_uri %]</a>
+		</div>
+		
+	[% END %]
+	</div>
+[% END %]
+<p>
+<a href="[% c.uri_for("/day/$prev_day") %]">&larr; prev day</a> &nbsp; <a href="[% c.uri_for("/day/$next_day") %]">next day &rarr;</a> &nbsp; <a href="[% c.uri_for('/menu') %]">list all days</a>
+</p>
+</div>
+</body>
+</html>

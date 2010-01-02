@@ -1,0 +1,6 @@
+[% PROCESS 'header.tt' %]
+</head>
+<body>
+<h1>[% c.config.channel %] pic-o-matic</h1>
+
+[% menu %]

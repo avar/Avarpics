@@ -12,6 +12,11 @@ requires 'Catalyst::Plugin::Static::Simple';
 requires 'Catalyst::Plugin::Unicode';
 requires 'Catalyst::Action::RenderView';
 requires 'Catalyst::View::TT';
+requires 'Date::Calc';
+requires 'Modern::Perl';
+requires 'File::Slurp';
+requires 'POSIX';
+requires 'WWW::Mechanize';
 requires 'Moose';
 requires 'namespace::autoclean';
 requires 'Config::General'; # This should reflect the config file format you've chosen

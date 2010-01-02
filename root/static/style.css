@@ -1,0 +1,58 @@
+* {
+	font-family: Trebuchet MS, sans-serif;
+}
+
+#pics {
+    width: 500px;
+    margin: 0px auto;
+    text-align: center;
+}
+
+img, object {
+    display: block;
+    margin: 0px auto 10px auto;
+}
+
+.nick {
+    font-size: small;
+    font-style: italic;
+}
+
+.pic {
+    margin-top: 2em;
+}
+
+.pic img {
+    margin-top: 0.5em;
+}
+
+.vid_uri {
+    font-size: small;
+    margin-bottom: 1em;
+    margin-top: 0em;
+}
+
+#toc, #toc ol li {
+    font-size: small;
+}
+
+#days {
+	border-collapse: collapse;
+	border-left: 1px solid #666;
+	border-bottom: 1px solid #666;
+}
+
+#days td {
+	border-top: 1px solid #666;
+	vertical-align: top;
+	padding: 0.5em 0.5em;
+	border-right: 1px solid #666;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
