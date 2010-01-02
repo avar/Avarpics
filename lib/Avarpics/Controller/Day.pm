@@ -40,7 +40,7 @@ sub index :Path :CaptureArgs(1) {
 sub _process {
 	my ($self, $c, $date) = @_;
 
-    my $log = $c->{avarpics_log};
+    my $log = $c->model("Log");
 
     my $text = $log->on_date_slurp( $date );
 

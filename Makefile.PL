@@ -12,6 +12,7 @@ requires 'Catalyst::Plugin::Static::Simple';
 requires 'Catalyst::Plugin::Unicode';
 requires 'Catalyst::Action::RenderView';
 requires 'Catalyst::View::TT';
+requires 'Catalyst::Model::Adaptor';
 requires 'Date::Calc';
 requires 'Modern::Perl';
 requires 'File::Slurp';

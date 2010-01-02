@@ -1,20 +1,18 @@
 package Avarpics::Log;
-use Modern::Perl;
+use Moose;
 use File::Slurp 'slurp';
-use WWW::Mechanize;
 
-sub new
-{
-    my ($class, %conf) = @_;
-    bless \%conf => $class;
-}
+has logdir => ( is => 'ro', required => 1 );
+has logpre => ( is => 'ro', required => 1 );
+has logext => ( is => 'ro', required => 1 );
+has channel => ( is => 'ro', required => 1 );
 
 sub files {
     my ($self) = @_;
 
-    my $LOGDIR = $self->{logdir};
-    my $LOGPRE = $self->{logpre};
-    my $LOGEXT = $self->{logext};
+    my $LOGDIR = $self->logdir;
+    my $LOGPRE = $self->logpre;
+    my $LOGEXT = $self->logext;
 
 	my @files = reverse glob("$LOGDIR/*.$LOGEXT");
 
@@ -26,24 +24,17 @@ sub files {
 	@files;
 }
 
-sub latest_file
-{
-    my ($self) = @_;
-
-    (($self->files)[0]);
-}
-
 sub on_date_slurp
 {
     my ($self, $date) = @_;
 
-    my $LOGDIR = $self->{logdir};
-    my $LOGPRE = $self->{logpre};
-    my $LOGEXT = $self->{logext};
+    my $LOGDIR = $self->logdir;
+    my $LOGPRE = $self->logpre;
+    my $LOGEXT = $self->logext;
 
 	my $file = "$LOGDIR/$LOGPRE$date.$LOGEXT";
 
     slurp($file);
 }
 
-1;
+__PACKAGE__->meta->make_immutable;

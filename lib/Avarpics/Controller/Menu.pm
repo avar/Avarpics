@@ -24,7 +24,7 @@ Catalyst Controller.
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
-    my $log = $c->{avarpics_log};
+    my $log = $c->model("Log");
 
     my @files = $log->files;
 
