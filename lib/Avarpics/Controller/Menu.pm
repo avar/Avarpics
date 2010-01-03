@@ -41,16 +41,27 @@ sub _menu
 	$menu .= qq{\t<tr>\n\t\t<td>};
 
 	my $month;
+    my $year;
 
 	foreach my $file (@files) {
 		my ($file_month) = $file =~ /\d{4}-(\d{2})-\d{2}/g;
+		my ($file_year) = $file =~ /(\d{4})-\d{2}-\d{2}/g;
 
 		$month = $file_month unless $month;
+		$year = $file_year unless $year;
 
-		if ($file_month ne $month) {
+        if ($file_year ne $year) {
+			$year = $file_year;
+            $month = $file_month;
+            $menu .= qq{</td></tr></table><br><br>\n\n};
+            $menu .= qq{<table id="days">\n};
+            $menu .= qq{\t<tr>\n\t\t<td>};
+		} elsif ($file_month ne $month) {
 			$month = $file_month;
             $menu .= qq{</td>\n\t\t<td>};
 		}
+
+
 
 		$menu .= qq{<a href="/day/$file">$file</a><br />\n};
 	}
