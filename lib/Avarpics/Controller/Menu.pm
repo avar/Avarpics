@@ -41,7 +41,6 @@ sub _menu
 	$menu .= qq{\t<tr>\n\t\t<td>};
 
 	my $month;
-	my $row_cells = 1;
 
 	foreach my $file (@files) {
 		my ($file_month) = $file =~ /\d{4}-(\d{2})-\d{2}/g;
@@ -50,13 +49,7 @@ sub _menu
 
 		if ($file_month ne $month) {
 			$month = $file_month;
-
-			if ($row_cells == 6) {	
-				$menu .= qq{\n\t</tr>\n\t<tr>\n};
-				$row_cells = 1;
-			} else {
-				$menu .= qq{</td>\n\t\t<td>};
-			}
+            $menu .= qq{</td>\n\t\t<td>};
 		}
 
 		$menu .= qq{<a href="/day/$file">$file</a><br />\n};
