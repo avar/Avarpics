@@ -40,6 +40,7 @@ sub index :Path :CaptureArgs(1) {
         $c->error( "$day is not a valid day" );
     }
 
+    $c->stash->{title} = sprintf "Pics from %s for %s", $c->config->{channel}, $day;
     $c->stash->{template} = 'day.tt';
 }
 
