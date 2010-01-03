@@ -3,6 +3,7 @@ use Moose;
 use namespace::autoclean;
 use Date::Calc qw(Add_Delta_Days);
 use POSIX 'strftime';
+use WWW::Mechanize;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
