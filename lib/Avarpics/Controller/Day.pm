@@ -28,8 +28,10 @@ sub index :Path :CaptureArgs(1) {
 
     $day = strftime("%Y-%m-%d", localtime) unless $day;
 
-    if ($day =~ /^(\d\d\d\d-\d\d-\d\d)$/) {
-        my %vars = $self->_process( $c, $1 );
+    my $log = $c->model("Log");
+
+    if ( $log->valid_day( $day ) ) {
+        my %vars = $self->_process( $c, $day );
         while (my ($k, $v) = each %vars) {
             $c->stash->{$k} = $v;
         }

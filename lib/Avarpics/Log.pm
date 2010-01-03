@@ -7,6 +7,17 @@ has logpre => ( is => 'ro', required => 1 );
 has logext => ( is => 'ro', required => 1 );
 has channel => ( is => 'ro', required => 1 );
 
+sub valid_day
+{
+    my ($self, $day) = @_;
+
+    return unless $day =~ /^(\d\d\d\d-\d\d-\d\d)$/;
+    for ($self->files) {
+        return 1 if $day eq $_;
+    }
+    return;
+}
+
 sub files {
     my ($self) = @_;
 
