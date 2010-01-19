@@ -14,7 +14,10 @@ function small(img) {
 <h2>[% IF img_count > 0 %][% img_count %] images[% IF vid_count > 0 %], [% END %][% END %][% IF vid_count > 0 %][% vid_count %] videos[% END %]</h2>
 <div id="toc">
 
-<a href="#pics" style="font-weight: bold">skip to pics &darr;</a> &nbsp; <a href="[% c.uri_for("/day/$prev_day") %]">&larr; prev day</a> &nbsp; <a href="[% c.uri_for("/day/$next_day") %]">next day &rarr;</a> &nbsp; <a href="[% c.uri_for('/menu') %]">list all days</a>
+<a href="#pics" style="font-weight: bold">skip to pics &darr;</a> &nbsp;
+<a href="[% c.uri_for("/day/$prev_day") %]">&larr; prev day</a> &nbsp;
+[% UNLESS no_next %]<a href="[% c.uri_for("/day/$next_day") %]">next day &rarr;</a> &nbsp;[% END %]
+<a href="[% c.uri_for('/menu') %]">list all days</a>
 <ol>
 [% anchor = 1 %]
 [% FOREACH uri IN uris %]
@@ -51,7 +54,9 @@ function small(img) {
 	</div>
 [% END %]
 <p>
-<a href="[% c.uri_for("/day/$prev_day") %]">&larr; prev day</a> &nbsp; <a href="[% c.uri_for("/day/$next_day") %]">next day &rarr;</a> &nbsp; <a href="[% c.uri_for('/menu') %]">list all days</a>
+<a href="[% c.uri_for("/day/$prev_day") %]">&larr; prev day</a> &nbsp;
+[% UNLESS no_next %]<a href="[% c.uri_for("/day/$next_day") %]">next day &rarr;</a> &nbsp;[% END %]
+<a href="[% c.uri_for('/menu') %]">list all days</a>
 </p>
 </div>
 </body>

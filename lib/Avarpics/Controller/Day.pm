@@ -40,6 +40,12 @@ sub index :Path :CaptureArgs(1) {
         $c->error( "$day is not a valid day" );
     }
 
+    # Don't show next links if it's today
+    my $today = strftime("%Y-%m-%d", localtime);
+    if ($today eq $day) {
+        $c->stash->{no_next} = 1;
+    }
+
     $c->stash->{title} = sprintf "Pics from %s for %s", $c->config->{channel}, $day;
     $c->stash->{template} = 'day.tt';
 }
