@@ -36,6 +36,13 @@ sub files {
 	@files;
 }
 
+sub latest_day
+{
+    my ($self) = @_;
+
+    ($self->files())[0];
+}
+
 sub on_date_slurp
 {
     my ($self, $date) = @_;

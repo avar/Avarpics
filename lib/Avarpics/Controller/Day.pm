@@ -27,9 +27,9 @@ Catalyst Controller.
 sub index :Path :CaptureArgs(1) {
     my ( $self, $c, $day ) = @_;
 
-    $day = strftime("%Y-%m-%d", localtime) unless $day;
-
     my $log = $c->model("Log");
+
+    $day = $log->latest_day() unless $day;
 
     if ( $log->valid_day( $day ) ) {
         my %vars = $self->_process( $c, $day );
