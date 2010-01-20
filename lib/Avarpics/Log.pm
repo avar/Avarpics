@@ -94,7 +94,7 @@ sub data_for_day {
     my $vid_count = 0;
 
     foreach my $line (split /\n/, $text) {
-        if ($line =~ /<(?:\@|\+| )(\w+)>/) {
+        if ($line =~ /<(?:\@|\+| )?(\w+)>/) {
             $current_nick = $1;
         }
 
