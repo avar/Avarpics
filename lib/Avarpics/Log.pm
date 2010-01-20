@@ -6,7 +6,7 @@ use Date::Calc qw(Add_Delta_Days);
 use WWW::Mechanize;
 
 has logdir => ( is => 'ro', required => 1 );
-has logpre => ( is => 'ro', required => 1 );
+has logpre => ( is => 'ro', required => 1, default => '' );
 has logext => ( is => 'ro', required => 1 );
 has channel => ( is => 'ro', required => 1 );
 
