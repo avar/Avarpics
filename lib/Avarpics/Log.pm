@@ -46,6 +46,16 @@ sub latest_day
     ($self->files())[0];
 }
 
+sub day_exists
+{
+    my ($self, $day) = @_;
+    my @files = $self->files;
+    my %files;
+    @files{@files} = ();
+
+    exists $files{$day};
+}
+
 sub is_today
 {
     my ($self, $day) = @_;
@@ -162,20 +172,26 @@ sub data_for_day {
         'vid_count' => $vid_count,
     };
 
+    my $prev = $self->get_date_str($date, -1);
+    my $next = $self->get_date_str($date,  1);
+
+    $options->{'prev_day'} = $prev;
+    $options->{'next_day'} = $next;
+
+    %$options;
+}
+
+sub get_date_str
+{
+    my ($self, $date, $offset) = @_;
+
     my ($year, $month, $day) = $date =~ /(\d\d\d\d)-(\d\d)-(\d\d)/g;
 
-    my ($pdy, $pdm, $pdd) = Add_Delta_Days($year, $month, $day, -1);
+    my ($pdy, $pdm, $pdd) = Add_Delta_Days($year, $month, $day, $offset);
     $pdm = sprintf("%02d", $pdm);
     $pdd = sprintf("%02d", $pdd);
 
-    my ($ndy, $ndm, $ndd) = Add_Delta_Days($year, $month, $day, 1);
-    $ndm = sprintf("%02d", $ndm);
-    $ndd = sprintf("%02d", $ndd);
-
-    $options->{'prev_day'} = join '-', ($pdy, $pdm, $pdd);
-    $options->{'next_day'} = join '-', ($ndy, $ndm, $ndd); 
-
-    %$options;
+    "$pdy-$pdm-$pdd";
 }
 
 __PACKAGE__->meta->make_immutable;

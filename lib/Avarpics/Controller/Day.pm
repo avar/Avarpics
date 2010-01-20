@@ -38,6 +38,7 @@ sub index :Path :CaptureArgs(1) {
     }
 
     $c->stash->{no_next} = 1 if $log->is_today($day);
+    $c->stash->{no_prev} = 1 if ! $log->day_exists( $log->get_date_str($day, -1) );
     $c->stash->{title} = sprintf "Pics from %s for %s", $c->config->{channel}, $day;
     $c->stash->{template} = 'day.tt';
 }

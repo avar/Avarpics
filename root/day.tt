@@ -15,7 +15,7 @@ function small(img) {
 <div id="toc">
 
 <a href="#pics" style="font-weight: bold">skip to pics &darr;</a> &nbsp;
-<a href="[% c.uri_for("/day/$prev_day") %]">&larr; prev day</a> &nbsp;
+[% UNLESS no_prev %]<a href="[% c.uri_for("/day/$prev_day") %]">&larr; prev day</a> &nbsp;[% END %]
 [% UNLESS no_next %]<a href="[% c.uri_for("/day/$next_day") %]">next day &rarr;</a> &nbsp;[% END %]
 <a href="[% c.uri_for('/menu') %]">list all days</a>
 <ol>
@@ -54,7 +54,7 @@ function small(img) {
 	</div>
 [% END %]
 <p>
-<a href="[% c.uri_for("/day/$prev_day") %]">&larr; prev day</a> &nbsp;
+[% UNLESS no_prev %]<a href="[% c.uri_for("/day/$prev_day") %]">&larr; prev day</a> &nbsp;[% END %]
 [% UNLESS no_next %]<a href="[% c.uri_for("/day/$next_day") %]">next day &rarr;</a> &nbsp;[% END %]
 <a href="[% c.uri_for('/menu') %]">list all days</a>
 </p>
