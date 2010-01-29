@@ -1,4 +1,5 @@
 package Avarpics::Log;
+use 5.10.0;
 use Moose;
 use File::Slurp 'slurp';
 use POSIX 'strftime';
@@ -24,9 +25,9 @@ sub valid_day
 sub files {
     my ($self) = @_;
 
-    my $LOGDIR = $self->logdir;
-    my $LOGPRE = $self->logpre;
-    my $LOGEXT = $self->logext;
+    my $LOGDIR = $self->logdir // '';
+    my $LOGPRE = $self->logpre // '';
+    my $LOGEXT = $self->logext // '';
 
 	my @files = reverse glob("$LOGDIR/*.$LOGEXT");
 
@@ -70,9 +71,9 @@ sub on_date_slurp
 {
     my ($self, $date) = @_;
 
-    my $LOGDIR = $self->logdir;
-    my $LOGPRE = $self->logpre;
-    my $LOGEXT = $self->logext;
+    my $LOGDIR = $self->logdir // '';
+    my $LOGPRE = $self->logpre // '';
+    my $LOGEXT = $self->logext // '';
 
 	my $file = "$LOGDIR/$LOGPRE$date.$LOGEXT";
 
