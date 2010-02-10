@@ -38,8 +38,9 @@ function small(img) {
 		<a href="[% uri.uri %]"><img src="[% uri.uri %]" width="425" onmouseover="big(this)" onmouseout="small(this)"></a>
 		[% END %]
 	[% ELSIF (uri.type == 'vid') %]
-		[% vid_uri  = "http://www.youtube.com/v/" _ uri.id       %]
-		[% link_uri = "http://www.youtube.com/watch?v=" _ uri.id %]
+		[% vid_uri   = "http://www.youtube.com/v/" _ uri.id       %]
+		[% link_uri  = "http://www.youtube.com/watch?v=" _ uri.id _ uri.rest %]
+        [% link_name = "http://www.youtube.com/watch?v=" _ uri.id %]
 		<object width="425" height="344">
 			<param name="movie" value="http://www.youtube.com/v/[% uri.id %]&hl=en&fs=1"></param>
 			<param name="allowFullScreen" value="true"></param>
@@ -47,7 +48,7 @@ function small(img) {
 			</embed>
 		</object>
 		<div class="vid_uri">
-		<a href="[% link_uri %]">[% link_uri %]</a>
+		<a href="[% link_uri %]">[% link_name %]</a>
 		</div>
 		
 	[% END %]

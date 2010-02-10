@@ -122,14 +122,16 @@ sub data_for_day {
             }
 
             $seen{$uri} = 1;
-        } elsif ($line =~ m#youtube\.com/watch\?v=(\w{11})#) {
+        } elsif ($line =~ m#youtube\.com/watch\?v=(\w{11})(\S*)#) {
             my $id = $1;
+            my $rest = $2;
 
             my ($vid_comment) = $line =~ /\s+#\s+(.*)/g;
 
             push @uris, {
                 'type'    => 'vid',
                 'id'      => $id,
+                'rest'    => $rest,
                 'who'     => $current_nick,
                 'comment' => $vid_comment,
             };
