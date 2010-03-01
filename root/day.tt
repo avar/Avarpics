@@ -35,7 +35,10 @@ function small(img) {
 		[% IF (uri.flickr_id) %]
 		<a href="http://flickr.com/photo.gne?id=[% uri.flickr_id %]"><img src="[% uri.uri %]" width="425" onmouseover="big(this)" onmouseout="small(this)"></a>
 		[% ELSE %]
-		<a href="[% uri.uri %]"><img src="[% uri.uri %]" width="425" onmouseover="big(this)" onmouseout="small(this)"></a>
+            <a href="[% uri.uri %]"><img src="[% uri.uri %]" width="425" onmouseover="big(this)" onmouseout="small(this)"></a>
+            [% IF uri.furi %]
+                <small>(<a href="[% uri.furi %]">blackup</a>)</small>
+            [% END %]
 		[% END %]
 	[% ELSIF (uri.type == 'vid') %]
 		[% vid_uri   = "http://www.youtube.com/v/" _ uri.id       %]

@@ -101,7 +101,32 @@ sub data_for_day {
 
         my $fileext = qr/\.(?:jpg|jpeg|gif|png|bmp)/i;
 
-        if ($line =~ m{(http://[\S]+?$fileext)}) {
+        if ($line =~ m{(http://[\S]+?$fileext) / (http://[\S]+?$fileext)}) {
+            my $uri = $1;
+            my $furi = $2;
+
+            if ($line =~ /\s+#\s+(.*)/) {
+                $comment = $1;
+            }
+
+            if (!$seen{$uri} && $uri !~ /\dchan\./) {
+
+                push @uris, {
+                    'type'    => 'img',
+                    'uri'     => $uri,
+                    'furi'    => $furi,
+                    'who'     => $current_nick,
+                    'comment' => $comment,
+                };
+
+                say STDERR "LINE: $line";
+
+                $img_count++;       
+                undef $comment; 
+            }
+
+            $seen{$uri} = 1;
+        } elsif ($line =~ m{(http://[\S]+?$fileext)}) {
             my $uri = $1;
 
             if ($line =~ /\s+#\s+(.*)/) {
