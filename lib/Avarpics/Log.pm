@@ -1,15 +1,37 @@
 package Avarpics::Log;
 use 5.10.0;
 use Moose;
+use MooseX::Types::Moose qw/Str HashRef/;
 use File::Slurp 'slurp';
 use POSIX 'strftime';
 use Date::Calc qw(Add_Delta_Days);
+use YAML::XS qw(LoadFile);
 use WWW::Mechanize;
 
 has logdir => ( is => 'ro', required => 1 );
 has logpre => ( is => 'ro', required => 1, default => '' );
 has logext => ( is => 'ro', required => 1 );
 has channel => ( is => 'ro', required => 1 );
+has channel => ( is => 'ro', required => 1 );
+has map_names => ( is => 'ro', isa => Str );
+has names   => (
+    is => 'ro',
+    isa => HashRef,
+    auto_deref => 1,
+    lazy_build => 1,
+);
+
+sub _build_names {
+    my ($self) = @_;
+    my $map_names = $self->map_names;
+
+    if (-r $map_names) {
+        my $hash = LoadFile( $self->map_names );
+        return $hash;
+    } else {
+        return +{};
+    }
+}
 
 sub valid_day
 {
@@ -115,11 +137,9 @@ sub data_for_day {
                     'type'    => 'img',
                     'uri'     => $uri,
                     'furi'    => $furi,
-                    'who'     => $current_nick,
+                    'who'     => $self->nick($current_nick),
                     'comment' => $comment,
                 };
-
-                say STDERR "LINE: $line";
 
                 $img_count++;       
                 undef $comment; 
@@ -138,7 +158,7 @@ sub data_for_day {
                 push @uris, {
                     'type'    => 'img',
                     'uri'     => $uri,
-                    'who'     => $current_nick,
+                    'who'     => $self->nick($current_nick),
                     'comment' => $comment,
                 };
 
@@ -157,7 +177,7 @@ sub data_for_day {
                 'type'    => 'vid',
                 'id'      => $id,
                 'rest'    => $rest,
-                'who'     => $current_nick,
+                'who'     => $self->nick($current_nick),
                 'comment' => $vid_comment,
             };
 
@@ -180,7 +200,7 @@ sub data_for_day {
                 push @uris, {
                     'type'      => 'img',
                     'uri'       => $uri,
-                    'who'       => $current_nick,
+                    'who'       => $self->nick($current_nick),
                     'comment'   => $comment,
                     'flickr_id' => $flickr_id,
                 };
@@ -207,6 +227,12 @@ sub data_for_day {
     $options->{'next_day'} = $next;
 
     %$options;
+}
+
+sub nick {
+    my ($self, $nick) = @_;
+
+    $self->names->{$nick} // $nick;
 }
 
 sub get_date_str
