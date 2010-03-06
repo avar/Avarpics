@@ -133,6 +133,12 @@ sub data_for_day {
             }
 
             if (!$seen{$uri} && $uri !~ /\dchan\./) {
+                if ($line =~ /^(\S+) >failo</) {
+                    # If failo is giving us an image it's safe to
+                    # assume that it's mirroring the last image posted
+                    # in the channel, use the mirror instead
+                    pop @uris;
+                }
 
                 push @uris, {
                     'type'    => 'img',
@@ -142,8 +148,8 @@ sub data_for_day {
                     'comment' => $comment,
                 };
 
-                $img_count++;       
-                undef $comment; 
+                $img_count++;
+                undef $comment;
             }
 
             $seen{$uri} = 1;
