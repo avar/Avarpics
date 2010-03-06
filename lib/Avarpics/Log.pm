@@ -37,7 +37,7 @@ sub valid_day
 {
     my ($self, $day) = @_;
 
-    return unless $day =~ /^(\d\d\d\d-\d\d-\d\d)$/;
+    return unless $day =~ /^(\d{4}-\d{2}-\d{2})$/;
     for ($self->files) {
         return 1 if $day eq $_;
     }
