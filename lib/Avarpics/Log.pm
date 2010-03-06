@@ -225,7 +225,7 @@ sub get_date_str
 {
     my ($self, $date, $offset) = @_;
 
-    my ($year, $month, $day) = $date =~ /(\d{2})-(\d{2})-(\d{2})/g;
+    my ($year, $month, $day) = $date =~ /(\d{4})-(\d{2})-(\d{2})/g;
 
     my ($pdy, $pdm, $pdd) = Add_Delta_Days($year, $month, $day, $offset);
     $pdm = sprintf("%02d", $pdm);
