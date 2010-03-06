@@ -107,7 +107,7 @@ sub data_for_day {
 
     my $text = $self->on_date_slurp( $date );
 
-    my ($current_nick, %seen, @uris);
+    my ($current_nick, %seen, %seen_youtube, @uris);
 
     # Need to define this outside loop as it has to persist from
     # a *chan URI (which is not kept) to the following ImageShack URI.
@@ -156,8 +156,11 @@ sub data_for_day {
         } elsif ($line =~ m#youtube\.com/watch\?v=(\w{11})(\S*)#) {
             my $id = $1;
             my $rest = $2;
+            my $uid = "$id/$rest";
 
             my ($vid_comment) = $line =~ /\s+#\s+(.*)/g;
+
+            next if $seen_youtube{$uid};
 
             push @uris, {
                 'type'    => 'vid',
@@ -168,6 +171,7 @@ sub data_for_day {
             };
 
             $vid_count++;
+            $seen_youtube{$uid} = 1;
         } elsif ($line =~ m#(http://www.flickr.com/photos/\w+/\d{10}/)#) {
             my $flickr = $1;
             my ($flickr_id) = $flickr =~ m#(\d{10})#;
