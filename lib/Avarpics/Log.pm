@@ -103,9 +103,9 @@ sub on_date_slurp
 }
 
 sub data_for_day {
-    my ($self, $date) = @_;
+    my ($self, $date, $log) = @_;
 
-    my $text = $self->on_date_slurp( $date );
+    my $text = $log // $self->on_date_slurp( $date );
 
     my ($current_nick, %seen, %seen_youtube, @uris);
 
@@ -123,13 +123,14 @@ sub data_for_day {
 
         my $fileext = qr/\.(?:jpg|jpeg|gif|png|bmp)/i;
 
-        if ($line =~ m{(http://[\S]+?$fileext)} or
-            $line =~ m{(http://[\S]+?$fileext) / (http://[\S]+?$fileext)}) {
+        if ($line =~ m{(http://[\S]+?$fileext) / (http://[\S]+?$fileext)} or
+            $line =~ m{(http://[\S]+?$fileext)}) {
+
             my $uri = $1;
             my $furi = $2;
 
-            if ($line =~ /\s+#\s+(.*)/) {
-                $comment = $1;
+            if (my $has = parse_comment($line)) {
+                $comment = $has;
             }
 
             if (!$seen{$uri} && $uri !~ /\dchan\./) {
@@ -158,7 +159,7 @@ sub data_for_day {
             my $rest = $2;
             my $uid = "$id/$rest";
 
-            my ($vid_comment) = $line =~ /\s+#\s+(.*)/g;
+            my ($vid_comment) = parse_comment($line);
 
             next if $seen_youtube{$uid};
 
@@ -195,8 +196,8 @@ sub data_for_day {
                     'flickr_id' => $flickr_id,
                 };
 
-                $img_count++;       
-                undef $comment; 
+                $img_count++;
+                undef $comment;
             }
 
             $seen{$uri} = 1;
@@ -217,6 +218,15 @@ sub data_for_day {
     $options->{'next_day'} = $next;
 
     %$options;
+}
+
+sub parse_comment {
+    my ($line) = @_;
+
+    return $1 if $line =~ /\s+#\s+(.*)/;
+    return $1 if $line =~ /<.*?> (.*):\s*(?=http)/;
+
+    return;
 }
 
 sub nick {

@@ -28,6 +28,7 @@ MANIFEST.SKIP
 META.yml
 README
 root/day.tt
+root/favicon.ico
 root/header.tt
 root/menu.tt
 root/static/style.css
@@ -41,5 +42,6 @@ t/02pod.t
 t/03podcoverage.t
 t/controller_Day.t
 t/controller_Menu.t
+t/log/log.t
 t/model_Log.t
 t/view_TT.t
