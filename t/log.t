@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use 5.010;
 use strict;
-use Test::More;
+use Test::More tests => 12;
 use Avarpics::Log;
 use Data::Dump 'dump';
 
@@ -15,59 +15,90 @@ my $log = Avarpics::Log->new(
 );
 
 my %data = $log->data_for_day("2010-03-07", $DATA);
-#say dump(\%data);
 
-is($data{vid_count}, 2, "vid_count is ok");
-is($data{img_count}, 2, "img_count is ok");
+
+is($data{vid_count}, 4, "vid_count is ok");
+is($data{img_count}, 4, "img_count is ok");
 is($data{date}, "2010-03-07", "date is ok");
-is($data{img_count}, 2, "img_count is ok");
 is($data{next_day}, "2010-03-08", "next_day is ok");
 is($data{prev_day}, "2010-03-06", "prev_day is ok");
 
+#say dump $data{uris};
+
 my @expect = (
+    {
+        comment => "/b/, in my lamebook?",
+        furi    => "http://img52.imageshack.us/img52/5558/fan59.png",
+        type    => "img",
+        uri     => "http://imgur.com/FAT0Q.png",
+        who     => "fooblah",
+        sauce   => "http://www.lamebook.com/wp-content/uploads/2010/03/fan5-9.png",
+    },
+    {
+        comment => undef,
+        furi    => "http://img230.imageshack.us/img230/5631/1267932644644.png",
+        type    => "img",
+        uri     => "http://imgur.com/FyP7a.png",
+        who     => "fooblah",
+        sauce   => "http://images.4chan.org/b/src/1267932644644.png",
+    },
+    {
+        comment => undef,
+        id => "ZbGiPjIE1pE",
+        rest => "",
+        type => "vid",
+        who => "blahblah"
+    },
     {
         comment => undef,
         type => "img",
         uri => "http://imgur.com/mB7wO.jpg",
         furi => "http://img31.imageshack.us/img31/7861/1267974943813.jpg",
-        who => "avar",
+        who => "blahblah",
+        sauce => "http://images.4chan.org/b/src/1267974943813.jpg",
     },
     {
         comment => "lol 90s",
         id => "A08Gsv5DEBk",
         rest => "",
         type => "vid",
-        who => "avar",
+        who => "blahblah",
     },
     {
         comment => "oh hlo",
         type => "img",
         uri => "http://imgur.com/0VkPb.jpg",
-        who => "avar",
+        who => "blahblah",
+        sauce => "http://images.4chan.org/b/src/1267974997983.jpg",
     },
     {
         comment => "testing",
         id => "6FuI7TI2QnM",
         rest => "&feature=sub",
         type => "vid",
-        who => "avar",
+        who => "blahblah",
     },
 );
+#say dump(\@expect);
 
 for (my $i = 0; $i < @expect; $i++) {
-    is_deeply($data{uris}->[$i], $expect[$i], "Got deeply OK for $expect[$i]->{type}");
+    is_deeply($data{uris}->[$i], $expect[$i], "Got #$i: deeply OK for $expect[$i]->{type}");
 }
 
-done_testing();
-
 __DATA__
-15:11:06 < avar> interesting: http://search.cpan.org/~yewenbin/Emacs-PDE-0.2.16/
-15:11:06 -failo:#avar- 叶文彬 / Emacs-PDE-0.2.16 - search.cpan.org
-15:16:52 < avar> http://images.4chan.org/b/src/1267974943813.jpg
-15:17:01 -failo:#avar- jpeg (633 x 772) - http://imgur.com/mB7wO.jpg / http://img31.imageshack.us/img31/7861/1267974943813.jpg
-15:18:21 < avar> lol 90s: http://www.youtube.com/watch?v=A08Gsv5DEBk
-15:18:21 -failo:#avar- YouTube - Nirvana on ice
-15:24:28 < avar> http://images.4chan.org/b/src/1267974997983.jpg # oh hlo
-15:24:41 -failo:#avar- jpeg (457 x 686) - http://imgur.com/0VkPb.jpg /
-15:31:55 < avar> http://www.youtube.com/watch?v=6FuI7TI2QnM&feature=sub # testing
-15:31:56 -failo:#avar- YouTube - An Astronomical Success Story: The La Silla Observator
+03:09:18 <fooblah> http://www.lamebook.com/wp-content/uploads/2010/03/fan5-9.png # /b/, in my lamebook?
+03:09:28 >failo<  - http://imgur.com/FAT0Q.png / http://img52.imageshack.us/img52/5558/fan59.png
+04:02:42 <fooblah> http://images.4chan.org/b/src/1267932644644.png
+04:02:49 >failo<  - http://imgur.com/FyP7a.png / http://img230.imageshack.us/img230/5631/1267932644644.png
+14:45:05 <blahblah> http://www.youtube.com/watch?v=ZbGiPjIE1pE
+14:45:08 >failo< YouTube - The Listening Post - The 'hearts and minds' of Operation Moshtarak - Part 2
+15:16:52 <blahblah> http://images.4chan.org/b/src/1267974943813.jpg
+15:17:01 >failo< jpeg (633 x 772) - http://imgur.com/mB7wO.jpg / http://img31.imageshack.us/img31/7861/1267974943813.jpg
+15:18:21 <blahblah> lol 90s: http://www.youtube.com/watch?v=A08Gsv5DEBk
+15:18:21 >failo< YouTube - Nirvana on ice
+15:24:28 <blahblah> http://images.4chan.org/b/src/1267974997983.jpg # oh hlo
+15:24:41 >failo< jpeg (457 x 686) - http://imgur.com/0VkPb.jpg /
+15:31:55 <blahblah> http://www.youtube.com/watch?v=6FuI7TI2QnM&feature=sub # testing
+15:31:56 >failo< YouTube - An Astronomical Success Story: The La Silla Observatory
+16:31:56 <fooblah> http://www.youtube.com/watch?v=7XtuPvwBa2U
+16:31:57 >failo< YouTube - how to complete a census

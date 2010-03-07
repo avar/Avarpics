@@ -133,14 +133,7 @@ sub data_for_day {
                 $comment = $has;
             }
 
-            if (!$seen{$uri} && $uri !~ /\dchan\./) {
-                if ($line =~ /^(\S+) >failo</) {
-                    # If failo is giving us an image it's safe to
-                    # assume that it's mirroring the last image posted
-                    # in the channel, use the mirror instead
-                    pop @uris;
-                }
-
+            if (!$seen{$uri}) {
                 push @uris, {
                     'type'    => 'img',
                     'uri'     => $uri,
@@ -149,7 +142,27 @@ sub data_for_day {
                     'comment' => $comment,
                 };
 
-                $img_count++;
+                if ($line =~ /^(\S+) >failo</ and
+                    $uris[-2]->{type} eq  $uris[-1]->{type} and
+                    $uris[-2]->{who} eq  $uris[-1]->{who}) {
+
+                    # If failo is giving us an object of the same type
+                    # as the last one with the same author it's safe
+                    # to assume that it's mirroring the thing posted
+                    # in the channel, use the mirror instead
+
+                    # Copy the comment we got from the last one
+                    $uris[-1]->{comment} = $uris[-2]->{comment} unless $uris[-1]->{comment};
+                    $uris[-1]->{sauce}   = $uris[-2]->{uri}         if $uris[-1]->{uri};
+
+                    # Nuke the penultimate array element
+                    given (scalar @uris) {
+                        when ($_ == 1 or $_ == 2) { shift @uris }
+                        default { splice @uris, -2, 1; }
+                    }
+                } else {
+                    $img_count++;
+                }
                 undef $comment;
             }
 
