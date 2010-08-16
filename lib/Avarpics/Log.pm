@@ -143,6 +143,7 @@ sub data_for_day {
                 };
 
                 if ($line =~ /^(\S+) >failo</ and
+                    exists $uris[-2] and
                     $uris[-2]->{type} eq  $uris[-1]->{type} and
                     $uris[-2]->{who} eq  $uris[-1]->{who}) {
 
