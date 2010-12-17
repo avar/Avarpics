@@ -246,7 +246,7 @@ sub parse_comment {
 sub nick {
     my ($self, $nick) = @_;
 
-    $self->names->{$nick} // $nick;
+    $self->names->{$nick} // $self->names->{lc $nick} // $nick;
 }
 
 sub get_date_str
