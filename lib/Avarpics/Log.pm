@@ -168,7 +168,8 @@ sub data_for_day {
             }
 
             $seen{$uri} = 1;
-        } elsif ($line =~ m#youtube\.com/watch\?v=(\w{11})(\S*)#) {
+        } elsif ($line =~ m#youtube\.com/watch\?v=(\w{11})(\S*)# or
+                 $line =~ m#youtu\.be/(\w{11})(\S*)#) {
             my $id = $1;
             my $rest = $2;
             my $uid = "$id/$rest";
